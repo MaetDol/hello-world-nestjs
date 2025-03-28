@@ -24,7 +24,7 @@ export class ShortUrlController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.shortUrlService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return this.shortUrlService.findOne(id);
   }
 }
