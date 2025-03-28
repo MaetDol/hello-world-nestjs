@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { ShortUrlService } from './short-url.service';
 import { CreateShortUrlDto } from './dto/create-short-url.dto';
-import { UpdateShortUrlDto } from './dto/update-short-url.dto';
 import { GetShortUrlDto } from './dto/get-short-url.dto';
 
 @Controller('/')
