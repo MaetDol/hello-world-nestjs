@@ -1,4 +1,5 @@
 import { TypeOrmModule as TypeOrm } from '@nestjs/typeorm';
+import { ShortUrl } from 'src/short-url/entities/short-url.entity';
 
 export const TypeOrmModule = TypeOrm.forRoot({
   type: 'mysql',
@@ -6,6 +7,7 @@ export const TypeOrmModule = TypeOrm.forRoot({
   port: 9000,
   username: 'root',
   password: 'root',
-  entities: [],
+  entities: [ShortUrl],
   synchronize: true,
+  database: 'short_url',
 });
