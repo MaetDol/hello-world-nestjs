@@ -21,13 +21,15 @@ describe('ShortUrlController', () => {
 
   it('Generate short url', async () => {
     // Given
-
-    // When
+    const originUrl = 'https://www.google.com';
     const shortUrl = await controller.create(
-      new CreateShortUrlDto({ url: 'https://www.google.com' }),
+      new CreateShortUrlDto({ url: originUrl }),
     );
 
+    // When
+    const { originalUrl: longUrl } = await controller.findOne(shortUrl.id);
+
     // Then
-    expect(shortUrl.url).toMatch(/\/[a-zA-Z0-9]+$/);
+    expect(longUrl).toEqual(originUrl);
   });
 });
