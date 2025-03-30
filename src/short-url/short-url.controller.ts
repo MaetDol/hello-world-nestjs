@@ -1,14 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { ShortUrlService } from './short-url.service';
-import { CreateShortUrlDto } from './dto/create-short-url.dto';
 import { GetShortUrlDto } from './dto/get-short-url.dto';
 
 @Controller('/')
@@ -16,14 +7,13 @@ export class ShortUrlController {
   constructor(private readonly shortUrlService: ShortUrlService) {}
 
   @Post()
-  async create(
-    @Body() createShortUrlDto: CreateShortUrlDto,
-  ): Promise<GetShortUrlDto> {
-    return this.shortUrlService.create(createShortUrlDto);
+  async create(@Body() body: { url: string }): Promise<GetShortUrlDto> {
+    return this.shortUrlService.create(body.url);
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return this.shortUrlService.findOne(id);
+    const shortUrl = await this.shortUrlService.findOne(id);
+    return { url: shortUrl.url };
   }
 }

@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class ShortUrl {
-  @PrimaryColumn()
+  @PrimaryColumn({ type: 'varchar', length: 21 })
   id: string;
 
   @Column()
