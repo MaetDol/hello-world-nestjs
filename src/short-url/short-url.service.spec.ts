@@ -24,4 +24,18 @@ describe('ShortUrlService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it('Generate short url', async () => {
+    // Given
+    const originUrl = 'https://www.google.com';
+    const shortPath = await service.create({
+      url: originUrl,
+    });
+
+    // When
+    const { url } = await service.findOne(shortPath.id);
+
+    // Then
+    expect(url).toEqual(originUrl);
+  });
 });

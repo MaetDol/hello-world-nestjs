@@ -26,18 +26,4 @@ describe('ShortUrlController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
-
-  it('Generate short url', async () => {
-    // Given
-    const originUrl = 'https://www.google.com';
-    const shortUrl = await controller.create(
-      new CreateShortUrlDto({ url: originUrl }),
-    );
-
-    // When
-    const { originalUrl: longUrl } = await controller.findOne(shortUrl.id);
-
-    // Then
-    expect(longUrl).toEqual(originUrl);
-  });
 });

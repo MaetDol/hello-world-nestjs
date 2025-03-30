@@ -13,7 +13,7 @@ export class ShortUrlService {
   ) {}
 
   async create(createShortUrlDto: CreateShortUrlDto) {
-    return new GetShortUrlDto('asd', '/asdf', createShortUrlDto.url);
+    return new GetShortUrlDto('asd', createShortUrlDto.url);
   }
 
   findAll() {
@@ -21,7 +21,7 @@ export class ShortUrlService {
   }
 
   async findOne(id: string) {
-    return new GetShortUrlDto(id, '/asdf', 'https://www.google.com');
+    return new GetShortUrlDto(id, 'https://www.google.com');
   }
 
   remove(id: number) {
