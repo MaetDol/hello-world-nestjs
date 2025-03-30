@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateShortUrlDto } from './dto/create-short-url.dto';
 import { GetShortUrlDto } from './dto/get-short-url.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ShortUrl } from 'src/short-url/entities/short-url.entity';
+import { ShortUrl } from './entities/short-url.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
