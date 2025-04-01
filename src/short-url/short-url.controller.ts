@@ -1,6 +1,5 @@
 import { Controller, Get, Post, Body, Param, Redirect } from '@nestjs/common';
 import { ShortUrlService } from './short-url.service';
-import { GetShortUrlDto } from './dto/get-short-url.dto';
 
 @Controller('/')
 export class ShortUrlController {
