@@ -1,6 +1,8 @@
 export class CreateShortUrlDto {
+  id: string;
   url: string;
-  constructor(url: CreateShortUrlDto) {
-    this.url = url.url;
+  constructor(id: string, url: string) {
+    this.url = url;
+    this.id = id;
   }
 }

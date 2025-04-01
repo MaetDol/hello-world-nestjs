@@ -1,11 +1,9 @@
 export class GetShortUrlDto {
-  id: number;
+  id: string;
   url: string;
-  originalUrl: string;
 
-  constructor(id: number, url: string, originalUrl: string) {
+  constructor(id: string, url: string) {
     this.id = id;
     this.url = url;
-    this.originalUrl = originalUrl;
   }
 }

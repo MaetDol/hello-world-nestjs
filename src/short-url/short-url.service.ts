@@ -1,28 +1,62 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateShortUrlDto } from './dto/create-short-url.dto';
-import { UpdateShortUrlDto } from './dto/update-short-url.dto';
-import { GetShortUrlDto } from './dto/get-short-url.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ShortUrl } from './entities/short-url.entity';
+import { Repository } from 'typeorm';
+import { customAlphabet } from 'nanoid';
 
 @Injectable()
 export class ShortUrlService {
-  async create(createShortUrlDto: CreateShortUrlDto) {
-    return new GetShortUrlDto(
-      1,
-      'https://www.google.com/asd',
-      createShortUrlDto.url,
-    );
+  constructor(
+    @InjectRepository(ShortUrl)
+    private readonly shortUrlRepository: Repository<ShortUrl>,
+  ) {}
+
+  async create(url: string): Promise<string> {
+    if (!this.isValidUrl(url)) {
+      throw new BadRequestException('Invalid URL format');
+    }
+
+    const nanoid = customAlphabet('23456789abcdefghijkmnpqrstuvwxyz', 6);
+    let tried = 0;
+
+    while (tried < 30) {
+      const id = nanoid();
+      const existingShortUrl = await this.shortUrlRepository.findOne({
+        where: { id },
+      });
+
+      if (!existingShortUrl) {
+        await this.shortUrlRepository.save(new CreateShortUrlDto(id, url));
+        return id;
+      }
+      tried++;
+    }
+
+    throw new Error('Failed to generate a unique short URL after 30 attempts');
+  }
+  isValidUrl(url: string) {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
   }
 
-  findAll() {
-    return `This action returns all shortUrl`;
-  }
+  async findOne(id: string) {
+    const shortUrl = await this.shortUrlRepository.findOne({
+      where: { id },
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} shortUrl`;
-  }
-
-  update(id: number, updateShortUrlDto: UpdateShortUrlDto) {
-    return `This action updates a #${id} shortUrl`;
+    if (!shortUrl) {
+      throw new NotFoundException(`Short URL with id ${id} not found`);
+    }
+    return shortUrl;
   }
 
   remove(id: number) {
