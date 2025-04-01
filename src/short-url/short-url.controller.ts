@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Redirect } from '@nestjs/common';
 import { ShortUrlService } from './short-url.service';
 import { GetShortUrlDto } from './dto/get-short-url.dto';
 
@@ -12,6 +12,7 @@ export class ShortUrlController {
     return { url: `/${id}` };
   }
 
+  @Redirect('/', 302)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const shortUrl = await this.shortUrlService.findOne(id);
