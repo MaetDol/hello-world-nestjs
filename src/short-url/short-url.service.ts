@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateShortUrlDto } from './dto/create-short-url.dto';
 import { GetShortUrlDto } from './dto/get-short-url.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -14,6 +18,10 @@ export class ShortUrlService {
   ) {}
 
   async create(url: string) {
+    if (!this.isValidUrl(url)) {
+      throw new BadRequestException('Invalid URL format');
+    }
+
     const nanoid = customAlphabet('23456789abcdefghijkmnpqrstuvwxyz', 6);
     let tried = 0;
 
@@ -30,6 +38,14 @@ export class ShortUrlService {
     }
 
     throw new Error('Failed to generate a unique short URL after 30 attempts');
+  }
+  isValidUrl(url: string) {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   async findOne(id: string) {
