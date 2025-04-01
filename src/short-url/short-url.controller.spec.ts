@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ShortUrlController } from './short-url.controller';
 import { ShortUrlService } from './short-url.service';
-import { CreateShortUrlDto } from './dto/create-short-url.dto';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ShortUrl } from './entities/short-url.entity';
 
