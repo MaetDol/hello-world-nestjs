@@ -7,8 +7,9 @@ export class ShortUrlController {
   constructor(private readonly shortUrlService: ShortUrlService) {}
 
   @Post()
-  async create(@Body() body: { url: string }): Promise<GetShortUrlDto> {
-    return this.shortUrlService.create(body.url);
+  async create(@Body() body: { url: string }): Promise<{ url: string }> {
+    const id = await this.shortUrlService.create(body.url);
+    return { url: `/${id}` };
   }
 
   @Get(':id')

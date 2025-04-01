@@ -17,7 +17,7 @@ export class ShortUrlService {
     private readonly shortUrlRepository: Repository<ShortUrl>,
   ) {}
 
-  async create(url: string) {
+  async create(url: string): Promise<string> {
     if (!this.isValidUrl(url)) {
       throw new BadRequestException('Invalid URL format');
     }
@@ -32,7 +32,8 @@ export class ShortUrlService {
       });
 
       if (!existingShortUrl) {
-        return this.shortUrlRepository.save(new CreateShortUrlDto(id, url));
+        await this.shortUrlRepository.save(new CreateShortUrlDto(id, url));
+        return id;
       }
       tried++;
     }
